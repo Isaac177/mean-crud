@@ -13,7 +13,7 @@ export interface Employee {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'http://localhost:3000/employees';
+  private apiUrl = 'https://mean-crud-dev-azmq.2.us-1.fl0.io/employees';
 
   constructor(private http: HttpClient) { }
 

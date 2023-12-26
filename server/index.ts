@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use(cors());
 
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
 app.use('/', employeeRoutes);
 
@@ -28,6 +28,6 @@ app.get('/test', (req, res) => {
     res.send('Hello World!');
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on port ${port}`);
 });
