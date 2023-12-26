@@ -31,6 +31,5 @@
   },
   "include": [
     "src/**/*.d.ts",
-    "src/polyfills.ts"
   ]
 }
