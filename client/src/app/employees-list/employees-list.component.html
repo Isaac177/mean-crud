@@ -1,0 +1,33 @@
+<div class="container mx-auto px-4 py-2">
+  <h2 class="text-xl font-bold my-4">Employees List</h2>
+  <div class="bg-white shadow-md rounded my-6">
+    <table class="text-left w-full border-collapse">
+      <thead>
+      <tr>
+        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Name</th>
+        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Position</th>
+        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Department</th>
+        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let employee of employees; let i = index" (click)="openDetailsModal(employee)">
+        <td class="py-4 px-6 border-b border-grey-light text-dark">{{ employee.name }}</td>
+        <td class="py-4 px-6 border-b border-grey-light text-dark">{{ employee.position }}</td>
+        <td class="py-4 px-6 border-b border-grey-light text-dark">{{ employee.department }}</td>
+        <td class="py-4 px-6 border-b border-grey-light flex flex-row gap-4">
+          <a [routerLink]="['/edit-employee', employee._id]" class="text-grey-lighter font-bold hover:text-grey-darker bg-green-300 rounded-lg p-2" href="#">
+            <p class="text-sm text-green-500">Edit</p>
+          </a>
+          <a (click)="deleteEmployee(employee._id); $event.stopPropagation();" class="text-grey-lighter font-bold hover:text-grey-darker bg-red-200 rounded-lg p-2" href="#">
+            <p class="text-sm text-red-600">Delete</p>
+          </a>
+          <a [routerLink]="['/employees', employee._id]" class="text-grey-lighter font-bold hover:text-grey-darker bg-blue-200 rounded-lg p-2" href="#">
+            <p class="text-sm text-blue-600">Details</p>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
