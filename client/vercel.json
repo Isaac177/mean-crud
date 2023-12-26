@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "^/employees/.*", "dest": "/employees/index.html" }
-  ]
-}
