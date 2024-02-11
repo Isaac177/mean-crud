@@ -7,8 +7,6 @@ import {
     updateEmployeeById
 } from "./employeeController";
 
-
-
 const router = Router();
 
 router.get('/employees', getEmployees);

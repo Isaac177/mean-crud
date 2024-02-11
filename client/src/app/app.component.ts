@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService, Employee } from './employee.service';
 import {RouterOutlet} from "@angular/router";
+import {MatButtonModule} from "@angular/material/button";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: true,
   imports: [
-    RouterOutlet
+    RouterOutlet,
+    CommonModule,
+    MatButtonModule
   ],
   styleUrls: ['./app.component.css']
 })
