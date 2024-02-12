@@ -1,13 +1,30 @@
 <main class="main flex flex-col">
-  <div class="flex items-center justify-center bg-gray-100 h-16">
+  <div class="flex items-center justify-center bg-gray-100 h-16 gap-4">
     <span class="text-dark text-3xl font-bold">Employee Manager</span>
+    <div class="flex items-center justify-end gap-4">
+      <button mat-stroked-button color="primary" *ngIf="!isLoggedIn()" routerLink="/login">
+        <a href="/login">
+          Login
+        </a>
+      </button>
+      <button mat-stroked-button color="primary" *ngIf="!isLoggedIn()" routerLink="/register">
+        <a href="/register">
+          Register
+        </a>
+      </button>
+      <button mat-stroked-button color="primary" *ngIf="isLoggedIn()" (click)="logout()">
+        <a href="/login">
+          Logout
+        </a>
+      </button>
+    </div>
   </div>
   <div class="w-full block lg:flex lg:items-center lg:w-auto mt-4">
     <div class="text-sm lg:flex-grow lg:flex lg:justify-center gap-1.5">
-      <button mat-stroked-button>
+      <button mat-stroked-button *ngIf="isLoggedIn()" >
         <a href="/employees" routerLink="/employees">Employees List</a>
       </button>
-      <button mat-stroked-button color="primary" routerLink="/create-employee">
+      <button mat-stroked-button color="primary" routerLink="/create-employee" *ngIf="isLoggedIn()" >
         <a href="/create-employee">
            Create Employee
         </a>

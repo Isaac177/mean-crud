@@ -24,11 +24,9 @@ export class EmployeeService {
     );
   }
 
-
   getEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
-
 
   // Create a new employee
   createEmployee(employeeData: Employee): Observable<Employee> {

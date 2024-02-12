@@ -1,11 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import employeeRoutes from "./employeeRoutes";
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import employeeRoutes from "./routes/employeeRoutes";
+import authRoutes from "./routes/authRoutes";
 
 
 dotenv.config();
+
 const app = express();
 
 const mongoDBUrl = process.env.DB_URL;
@@ -20,9 +23,12 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use(cookieParser());
+
 const port = Number(process.env.PORT) || 3000;
 
 app.use('/', employeeRoutes);
+app.use('/', authRoutes);
 
 app.get('/test', (req, res) => {
     res.send('Hello World!');

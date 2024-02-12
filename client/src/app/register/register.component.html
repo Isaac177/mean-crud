@@ -1,0 +1,31 @@
+<section class="mt-10 flex flex-col justify-center items-center border border-gray-300 rounded-lg p-10 w-1/2 mx-auto">
+  <h1 class="text-3xl font-bold">Register</h1>
+  <form class="flex flex-col w-full" (ngSubmit)="register()">
+      <mat-form-field appearance="fill" class="full-width-input">
+        <mat-label>Username</mat-label>
+        <input matInput
+               placeholder="Your username"
+               [(ngModel)]="username"
+               name="username"
+               required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width-input">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Your email" [(ngModel)]="email" name="email" type="email" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width-input">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Your password" [(ngModel)]="password" name="password" type="password" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width-input">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput placeholder="Confirm your password" [(ngModel)]="confirmPassword" name="confirmPassword" type="password" required>
+      </mat-form-field>
+
+      <button type="submit" mat-raised-button color="primary" class="submit-button">Register</button>
+    </form>
+
+</section>

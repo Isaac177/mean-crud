@@ -1,19 +1,21 @@
-
-import { Request, Response } from "express";
-
-import Employee from "./EmployeeModel";
-
-export const createEmployee = async (req: Request, res: Response) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteEmployeeById = exports.updateEmployeeById = exports.getEmployeeById = exports.getEmployees = exports.createEmployee = void 0;
+const EmployeeModel_1 = __importDefault(require("../models/EmployeeModel"));
+const createEmployee = async (req, res) => {
     try {
         const { name, position, department } = req.body;
-        const employee = new Employee({ name, position, department });
+        const employee = new EmployeeModel_1.default({ name, position, department });
         await employee.save();
-
         res.status(201).json({
             message: 'Employee created successfully',
             employee
         });
-    } catch (error: any) {
+    }
+    catch (error) {
         console.error('Failed to create employee:', error);
         res.status(500).json({
             message: 'Internal Server Error',
@@ -21,17 +23,16 @@ export const createEmployee = async (req: Request, res: Response) => {
         });
     }
 };
-
+exports.createEmployee = createEmployee;
 // Get all employees
-
-
-export const getEmployees = async (req: Request, res: Response) => {
+const getEmployees = async (req, res) => {
     try {
-        const employees = await Employee.find();
+        const employees = await EmployeeModel_1.default.find();
         res.status(200).json({
             employees
         });
-    } catch (error: any) {
+    }
+    catch (error) {
         console.error('Failed to retrieve employees:', error);
         res.status(500).json({
             message: 'Internal Server Error',
@@ -39,20 +40,20 @@ export const getEmployees = async (req: Request, res: Response) => {
         });
     }
 };
-
+exports.getEmployees = getEmployees;
 // Get employee by id
-
-export const getEmployeeById = async (req: Request, res: Response) => {
+const getEmployeeById = async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
-        const employee = await Employee.findById(employeeId);
+        const employee = await EmployeeModel_1.default.findById(employeeId);
         if (!employee) {
             return res.status(404).json({
                 message: `Employee with id ${employeeId} not found`
             });
         }
         res.status(200).json(employee);
-    } catch (error: any) {
+    }
+    catch (error) {
         console.error('Failed to retrieve employee:', error);
         res.status(500).json({
             message: 'Internal Server Error',
@@ -60,14 +61,13 @@ export const getEmployeeById = async (req: Request, res: Response) => {
         });
     }
 };
-
+exports.getEmployeeById = getEmployeeById;
 // Update employee by id
-
-export const updateEmployeeById = async (req: Request, res: Response) => {
+const updateEmployeeById = async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
         const { name, position, department } = req.body;
-        const employee = await Employee.findByIdAndUpdate(employeeId, { name, position, department }, { new: true });
+        const employee = await EmployeeModel_1.default.findByIdAndUpdate(employeeId, { name, position, department }, { new: true });
         if (!employee) {
             return res.status(404).json({
                 message: `Employee with id ${employeeId} not found`
@@ -77,7 +77,8 @@ export const updateEmployeeById = async (req: Request, res: Response) => {
             message: 'Employee updated successfully',
             employee
         });
-    } catch (error: any) {
+    }
+    catch (error) {
         console.error('Failed to update employee:', error);
         res.status(500).json({
             message: 'Internal Server Error',
@@ -85,13 +86,12 @@ export const updateEmployeeById = async (req: Request, res: Response) => {
         });
     }
 };
-
+exports.updateEmployeeById = updateEmployeeById;
 // Delete employee by id
-
-export const deleteEmployeeById = async (req: Request, res: Response) => {
+const deleteEmployeeById = async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
-        const employee = await Employee.findByIdAndDelete(employeeId);
+        const employee = await EmployeeModel_1.default.findByIdAndDelete(employeeId);
         if (!employee) {
             return res.status(404).json({
                 message: `Employee with id ${employeeId} not found`
@@ -101,7 +101,8 @@ export const deleteEmployeeById = async (req: Request, res: Response) => {
             message: 'Employee deleted successfully',
             employee
         });
-    } catch (error: any) {
+    }
+    catch (error) {
         console.error('Failed to delete employee:', error);
         res.status(500).json({
             message: 'Internal Server Error',
@@ -109,3 +110,4 @@ export const deleteEmployeeById = async (req: Request, res: Response) => {
         });
     }
 };
+exports.deleteEmployeeById = deleteEmployeeById;
