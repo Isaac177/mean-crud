@@ -5,13 +5,14 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import employeeRoutes from "./routes/employeeRoutes";
 import authRoutes from "./routes/authRoutes";
+import salesRoutes from "./routes/salesRoutes";
 
 
 dotenv.config();
 
 const app = express();
 
-const mongoDBUrl = process.env.DB_URL;
+const mongoDBUrl = process.env.DB_URL_SEC;
 
 mongoose.connect(mongoDBUrl as string).then(() => {
     console.log('Connected to MongoDB');
@@ -29,6 +30,7 @@ const port = Number(process.env.PORT) || 3000;
 
 app.use('/', employeeRoutes);
 app.use('/', authRoutes);
+app.use('/', salesRoutes);
 
 app.get('/test', (req, res) => {
     res.send('Hello World!');
