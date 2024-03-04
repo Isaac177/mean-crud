@@ -12,7 +12,13 @@
       </thead>
       <tbody>
       <tr *ngFor="let employee of employees; let i = index" (click)="openDetailsModal(employee)">
-        <td class="py-4 px-6 border-b border-grey-light text-dark">{{ employee.name }}</td>
+        <td class="py-4 px-6 border-b border-grey-light text-dark flex items-center gap-2">
+<img *ngIf="employee.imageUrl; else defaultAvatar" class="rounded-full w-8 h-8" [src]="employee.imageUrl" alt="{{ employee.name }}">
+<ng-template #defaultAvatar>
+  <img class="rounded-full w-8 h-8" src="https://www.gravatar.com/avatar/" alt="{{ employee.name }}">
+</ng-template>
+{{ employee.name }}          {{ employee.name }}
+        </td>
         <td class="py-4 px-6 border-b border-grey-light text-dark">{{ employee.position }}</td>
         <td class="py-4 px-6 border-b border-grey-light text-dark">{{ employee.department }}</td>
         <td class="py-4 px-6 border-b border-grey-light flex flex-row gap-4">

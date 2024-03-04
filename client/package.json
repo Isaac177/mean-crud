@@ -25,6 +25,7 @@
     "@angular/router": "^17.0.8",
     "@nguniversal/express-engine": "^7.1.1",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.7.4",
     "tslib": "^2.3.0",
     "zone.js": "^0.14.3"
   },

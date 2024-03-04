@@ -55,6 +55,19 @@
           },
           "defaultConfiguration": "production"
         },
+        "ssr": {
+          "builder": "@nguniversal/express-engine:ssr",
+          "options": {
+            "browserTarget": "client:build",
+            "serverTarget": "client:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "client:build:production",
+              "serverTarget": "client:server:production"
+            }
+          }
+        },
         "build:ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {

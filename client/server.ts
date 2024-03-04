@@ -7,7 +7,7 @@ import { AppServerModule } from './src/app/app.server.module';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/your-project-name');
+const DIST_FOLDER = join(process.cwd(), 'dist/client');
 
 app.engine('html', ngExpressEngine({
   bootstrap: AppServerModule,

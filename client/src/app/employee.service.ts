@@ -7,6 +7,7 @@ export interface Employee {
   name: string;
   position: string;
   department: string;
+  imageUrl?: string;
 }
 
 @Injectable({
@@ -34,7 +35,7 @@ export class EmployeeService {
   }
 
   // Update an employee by ID
-  updateEmployeeById(id: string | undefined, employeeData: Employee): Observable<Employee> {
+    updateEmployeeById(id: string | undefined, employeeData: FormData): Observable<Employee> {
     return this.http.put<Employee>(`${this.apiUrl}/${id}`, employeeData);
   }
 

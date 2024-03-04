@@ -41,9 +41,7 @@ export class EmployeesListComponent implements OnInit {
     if(confirm("Are you sure you want to delete this employee?")) {
       this.employeeService.deleteEmployeeById(employeeId).subscribe({
         next: () => {
-          // Remove the deleted employee from the local array to update the UI
           this.employees = this.employees.filter(employee => employee._id !== employeeId);
-          // Optionally, navigate or refresh the list
         },
         error: (error) => {
           console.error('Error deleting employee', error);
@@ -55,12 +53,10 @@ export class EmployeesListComponent implements OnInit {
 
   openDetailsModal(employee: Employee): void {
     this.selectedEmployee = employee;
-    // Here, you would handle the logic to display the modal
   }
 
   closeDetailsModal(): void {
     this.selectedEmployee = null;
-    // Handle logic to close the modal
   }
 
   protected readonly console = console;
