@@ -25,4 +25,16 @@ export class UserService {
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, {});
   }
+
+  sendOtp(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/sendOtp`, { email });
+  }
+
+  verifyOtp(email: string, otp: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/verifyOtp`, { email, otp });
+  }
+
+  resetPassword(email: string, otp: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/reset-password`, { email, otp, newPassword });
+  }
 }

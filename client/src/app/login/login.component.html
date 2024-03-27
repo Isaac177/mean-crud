@@ -15,6 +15,48 @@
       </mat-form-field>
 
       <button type="button" mat-stroked-button color="primary" class="w-full" (click)="onLogin()">Login</button>
+      <button type="button" mat-stroked-button color="accent" class="w-full mt-2"
+              (click)="showSendEmailForm = !showSendEmailForm">Forgot Password
+      </button>
+    </form>
+
+    <!-- Form to send email -->
+    <form *ngIf="!showSendEmailForm" [formGroup]="forgotPasswordForm" class="w-full max-w-xs mt-8">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Enter your email</mat-label>
+        <input matInput formControlName="forgotEmail">
+      </mat-form-field>
+
+      <button type="button" mat-stroked-button color="primary" class="w-full" (click)="onSendEmail()">Send Email
+      </button>
+    </form>
+
+    <!-- Form to verify OTP -->
+    <form *ngIf="showVerifyOtpForm && !showSendEmailForm" [formGroup]="otpForm" class="w-full max-w-xs mt-8">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Enter OTP</mat-label>
+        <input matInput formControlName="otp">
+      </mat-form-field>
+
+      <button type="button" mat-stroked-button color="primary" class="w-full" (click)="onVerifyOtp()">Verify OTP
+      </button>
+    </form>
+
+    <!-- Form to reset password -->
+    <form *ngIf="showResetPasswordForm && !showVerifyOtpForm && !showSendEmailForm" [formGroup]="resetPasswordForm" class="w-full max-w-xs mt-8">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Enter new password</mat-label>
+        <input matInput type="password" formControlName="newPassword">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full mt-4">
+        <mat-label>Repeat new password</mat-label>
+        <input matInput type="password" formControlName="repeatPassword">
+      </mat-form-field>
+
+      <button type="button" mat-stroked-button color="primary" class="w-full" (click)="onResetPassword()">Reset
+        Password
+      </button>
     </form>
   </div>
 </section>

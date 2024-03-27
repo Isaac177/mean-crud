@@ -4,6 +4,8 @@ import {Payload, signToken} from "../middleware/jwt";
 import Joi from "joi";
 import {comparePassword, hashPassword} from "../utils/bcrypt";
 import {getUserId} from "../utils/getUserId";
+import {sendEmail} from "../utils/sendEmail";
+import crypto from 'crypto';
 
 
 
@@ -54,6 +56,8 @@ export const createUser = async (req: Request, res: Response) => {
             user,
             token
         });
+
+        await sendEmail(email, 'Welcome to the app!', 'You have successfully created an account')
 
     } catch (error: any) {
         console.error('Failed to create user:', error);
@@ -173,5 +177,115 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
+export const sendOtp = async (req: Request, res: Response) => {
+    try {
+        const { email } = req.body;
 
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            res.status(404).send('User not found');
+            return;
+        }
+
+        const otp = crypto.randomBytes(3).toString('hex');
+        const otpExpire = new Date(Date.now() + 20*60*1000);
+
+        user.otp = otp;
+        user.otpExpire = otpExpire;
+
+        await user.save();
+
+        await sendEmail(email, 'OTP for password reset', `Your OTP is ${otp}`);
+
+        res.status(200).send({
+            message: 'OTP sent to email'
+        });
+    } catch (error: any) {
+        console.error('Failed to send OTP:', error);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message,
+            stack: error.stack
+        });
+    }
+};
+
+export const verifyOtp = async (req: Request, res: Response) => {
+    try {
+        const { email, otp } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            res.status(404).send('User not found');
+            return;
+        }
+
+        if (otp !== user.otp) {
+            res.status(401).send('Invalid OTP');
+            return;
+        }
+
+        if (new Date() > user.otpExpire) {
+            res.status(401).send({
+                message: 'OTP expired'
+            });
+            return;
+        }
+
+        res.status(200).send({
+            message: 'OTP verified'
+        });
+    } catch (error: any) {
+        console.error('Failed to verify OTP:', error);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    }
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            res.status(404).send('User not found');
+            return;
+        }
+
+        if (otp !== user.otp) {
+            res.status(401).send('Invalid OTP');
+            return;
+        }
+
+        if (new Date() > user.otpExpire) {
+            res.status(401).send({
+                message: 'OTP expired'
+            });
+            return;
+        }
+
+        user.password = await hashPassword(newPassword);
+        user.otp = '';
+        user.otpExpire = new Date();
+
+        await user.save();
+
+        await sendEmail(email, 'Password reset successful', 'Your password has been reset')
+
+        res.status(200).send({
+            message: 'Password reset successful'
+        });
+    } catch (error: any) {
+        console.error('Failed to reset password:', error);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    }
+};
 

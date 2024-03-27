@@ -8,6 +8,8 @@ import authRoutes from "./routes/authRoutes";
 import salesRoutes from "./routes/salesRoutes";
 import http from 'http';
 import { Server } from 'socket.io';
+import rateLimit from "express-rate-limit";
+
 
 
 dotenv.config();
@@ -43,9 +45,14 @@ app.use(cookieParser());
 
 const port = Number(process.env.PORT) || 3000;
 
-app.use('/', employeeRoutes);
-app.use('/', authRoutes);
-app.use('/', salesRoutes);
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 50
+});
+
+app.use('/', limiter, employeeRoutes);
+app.use('/', limiter, authRoutes);
+app.use('/', limiter, salesRoutes);
 
 app.get('/test', (req, res) => {
     res.send('Hello World!');
