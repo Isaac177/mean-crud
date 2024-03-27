@@ -32,12 +32,9 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required])
   });
 
-  otpForm: FormGroup = new FormGroup({
-    otp: new FormControl('', [Validators.required]),
-  });
-
   forgotPasswordForm: FormGroup = new FormGroup({
-    forgotEmail: new FormControl('', [Validators.required, Validators.email])
+    forgotEmail: new FormControl('', [Validators.required, Validators.email]),
+    otp: new FormControl('')
   });
 
   resetPasswordForm: FormGroup = new FormGroup({
@@ -45,9 +42,7 @@ export class LoginComponent {
     repeatPassword: new FormControl('', [Validators.required])
   });
 
-  showSendEmailForm = true;
-  showOtpForm = false;
-  showVerifyOtpForm = false;
+  showForgotPasswordForm = false;
   showResetPasswordForm = false;
 
   constructor(
@@ -80,16 +75,16 @@ export class LoginComponent {
   }
 
   onSendEmail() {
-    if (this.forgotPasswordForm.valid) {
+    if (this.forgotPasswordForm.get('forgotEmail')?.valid) {
       const email = this.forgotPasswordForm.get('forgotEmail')?.value;
       this.userService.sendOtp(email).subscribe(
         (response: any) => {
-          if (response.message === 'Failed to send OTP') {
-            alert('Failed to send OTP');
+          if (response.message === 'OTP sent to email') {
+            this.forgotPasswordForm.get('otp')?.setValidators([Validators.required]);
+            this.forgotPasswordForm.get('otp')?.updateValueAndValidity();
+            alert('OTP sent to your email');
           } else {
-            alert('OTP sent to email');
-            this.showSendEmailForm = false;
-            this.showOtpForm = true;
+            alert('Failed to send OTP');
           }
         },
         (error) => {
@@ -105,12 +100,12 @@ export class LoginComponent {
   }
 
   onVerifyOtp() {
-    if (this.otpForm.valid) {
-      const email = this.otpForm.get('forgotEmail')?.value;
-      const otp = this.otpForm.get('otp')?.value;
+    if (this.forgotPasswordForm.valid) {
+      const email = this.forgotPasswordForm.get('forgotEmail')?.value;
+      const otp = this.forgotPasswordForm.get('otp')?.value;
       this.userService.verifyOtp(email, otp).subscribe(
         (response) => {
-          this.showOtpForm = false;
+          this.showForgotPasswordForm = false;
           this.showResetPasswordForm = true;
           alert('OTP verified');
         },
@@ -128,8 +123,8 @@ export class LoginComponent {
 
   onResetPassword() {
     if (this.resetPasswordForm.valid) {
-      const email = this.otpForm.get('forgotEmail')?.value;
-      const otp = this.otpForm.get('otp')?.value;
+      const email = this.forgotPasswordForm.get('forgotEmail')?.value;
+      const otp = this.forgotPasswordForm.get('otp')?.value;
       const newPassword = this.resetPasswordForm.get('newPassword')?.value;
       const repeatPassword = this.resetPasswordForm.get('repeatPassword')?.value;
 
@@ -144,6 +139,7 @@ export class LoginComponent {
             alert('Failed to reset password');
           } else {
             alert('Password reset successful');
+            window.location.reload();
           }
         },
         (error) => {
