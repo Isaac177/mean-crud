@@ -178,6 +178,11 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const sendOtp = async (req: Request, res: Response) => {
+    if (!res || typeof res.send !== 'function' || typeof res.status !== 'function') {
+        console.error('Invalid response object');
+        return;
+    }
+
     try {
         const { email } = req.body;
 
