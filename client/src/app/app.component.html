@@ -21,12 +21,17 @@
   </div>
   <div class="w-full block lg:flex lg:items-center lg:w-auto mt-4">
     <div class="text-sm lg:flex-grow lg:flex lg:justify-center gap-1.5">
-      <button mat-stroked-button *ngIf="isLoggedIn()" >
+      <button mat-stroked-button *ngIf="isLoggedIn()">
         <a href="/employees" routerLink="/employees">Employees List</a>
       </button>
-      <button mat-stroked-button color="primary" routerLink="/create-employee" *ngIf="isLoggedIn()" >
+      <button mat-stroked-button color="primary" routerLink="/create-employee" *ngIf="isLoggedIn()">
         <a href="/create-employee">
-           Create Employee
+          Create Employee
+        </a>
+      </button>
+      <button mat-stroked-button color="primary" *ngIf="isLoggedIn()" routerLink="/weather">
+        <a href="/weather">
+          Weather
         </a>
       </button>
       <button mat-stroked-button (click)="sendMessage()">Send Message</button>
