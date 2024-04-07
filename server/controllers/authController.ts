@@ -186,6 +186,8 @@ export const sendOtp = async (req: Request, res: Response) => {
     try {
         const { email } = req.body;
 
+        console.log('Email:', email)
+
         const user = await User.findOne({ email });
 
         if (!user) {

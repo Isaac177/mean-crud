@@ -9,7 +9,8 @@ import salesRoutes from "./routes/salesRoutes";
 import http from 'http';
 import { Server } from 'socket.io';
 import rateLimit from "express-rate-limit";
-
+import { graphqlHTTP } from 'express-graphql';
+import schema from './schema';
 
 
 dotenv.config();
@@ -58,6 +59,10 @@ app.get('/test', (req, res) => {
     res.send('Hello World!');
 });
 
+app.use('/graphql', graphqlHTTP({
+    schema,
+    graphiql: true,
+}));
 io.on('connection', (socket) => {
     console.log('a user connected with socket id:', socket.id);
 
